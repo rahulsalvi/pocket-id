@@ -1,0 +1,36 @@
+# vim: ft=yaml.docker-compose
+name: pocket-id
+
+include:
+  - ext/docker-compose-snippets/tailscale-caddy.yaml
+  - ext/docker-compose-snippets/simple-reverse-proxy.yaml
+
+services:
+  pocket-id:
+    image: ghcr.io/rahulsalvi/pocket-id:latest
+    environment:
+      APP_URL: https://pocket-id.ipn.rahulsalvi.com
+      TRUST_PROXY: true
+      HOST: 127.0.0.1
+      PORT: 8080
+      ANALYTICS_DISABLED: true
+    volumes:
+      - pocket-id-data:/app/data
+    restart: unless-stopped
+    healthcheck:
+      test: "curl -f http://localhost:8080/healthz"
+      interval: 1m30s
+      timeout: 5s
+      retries: 2
+      start_period: 10s
+    extends:
+      file: ext/docker-compose-snippets/tailscale-app-base.yaml
+      service: tailscale-app-base
+
+volumes:
+  pocket-id-data:
+
+
+secrets:
+  ts_authkey:
+    file: ./ts_authkey.txt
