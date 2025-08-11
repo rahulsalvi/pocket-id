@@ -1,4 +1,5 @@
 # vim: ft=yaml.docker-compose
+---
 name: pocket-id
 
 include:
@@ -10,7 +11,7 @@ services:
   pocket-id:
     image: ghcr.io/rahulsalvi/pocket-id:latest
     environment:
-      APP_URL: https://pocket-id.ipn.rahulsalvi.com
+      APP_URL: https://${COMPOSE_PROJECT_NAME}.ipn.rahulsalvi.com
       TRUST_PROXY: true
       HOST: 127.0.0.1
       PORT: 8080
