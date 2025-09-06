@@ -16,6 +16,7 @@ services:
       HOST: 127.0.0.1
       PORT: 8080
       ANALYTICS_DISABLED: true
+      SESSION_DURATION: 4320
     volumes:
       - pocket-id-data:/app/data
     restart: unless-stopped
