@@ -12,6 +12,7 @@ services:
     image: ghcr.io/rahulsalvi/pocket-id:latest
     environment:
       APP_URL: https://${COMPOSE_PROJECT_NAME}.ipn.rahulsalvi.com
+      ENCRYPTION_KEY: ${ENCRYPTION_KEY}
       TRUST_PROXY: true
       HOST: 127.0.0.1
       PORT: 8080
@@ -21,7 +22,7 @@ services:
       - pocket-id-data:/app/data
     restart: unless-stopped
     healthcheck:
-      test: "curl -f http://localhost:8080/healthz"
+      test: ["CMD", "/app/pocket-id", "healthcheck"]
       interval: 1m30s
       timeout: 5s
       retries: 2
